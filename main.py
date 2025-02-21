@@ -356,16 +356,15 @@ def main():
                         fig = px.histogram(filtered_df, x='quality_score', nbins=10)
                         st.plotly_chart(fig)
                         
-                        # Display results with color coding
+                        # Display results with quality score visualization
                         st.write("Filtered Results:")
-                        st.dataframe(
-                            filtered_df.style.background_gradient(
-                                subset=['quality_score'],
-                                cmap='RdYlGn',
-                                vmin=0,
-                                vmax=100
-                            )
-                        )
+                        
+                        # Create a formatted display DataFrame
+                        display_df = filtered_df.copy()
+                        display_df['quality_score'] = display_df['quality_score'].round(1).astype(str) + '%'
+                        
+                        # Show the dataframe
+                        st.dataframe(display_df)
                         
                         # Prepare downloads
                         timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
